@@ -1,0 +1,54 @@
+function drawingABeam(){ 
+   $arr = range(1,9); 
+   $arr1 = []; 
+   foreach ($arr as $elem){ 
+       $elem = '_'; 
+       $arr1[]= $elem; 
+        
+   } 
+    
+   return implode('', $arr1). "\n";
+    
+}
+$res1 = drawingABeam();
+
+
+function play(){
+header("Content-type: text/html; charset=UTF-8");
+
+$str = 'артур';//загаданное слово
+$user = 'р';// буква в слове 
+
+$arr = mb_str_split($str);//преобразовываем строку массив
+$arr2 = [];//создаем массив в который будем добавлять отгаданное слово
+
+$count = 8;// счетчик попыток
+$strCount = 'Попыток осталось';
+$search = in_array($user, $arr);// поиск по слову 
+if($search == false){//если такой буквы нет нет то счетчик +1
+    $count--;
+    return $strCount . ' ' . $count;
+}else{// буква есть то запускаем цикл чтобы добавить по индексам
+    foreach ($arr as $index => $char) {
+    if ($char === $user || in_array($char, $arr2)) {// если такая буква есть которую вел пользователь или такая буква еже есть в массиве 
+        
+        $arr2[$index] = $char;// то добавляяем с таким же индексом букву из массива (артур)
+    } elseif (!isset($arr2[$index])) {// если переменная  т.е. буква не установлена то заполняем весь отавшийся массив _
+        
+        $arr2[$index] = '_';
+    }
+}
+}
+
+
+$res = implode('', $arr2);
+
+return $res . "\n"; 
+if($count > 8){
+    return 'THE END!!';
+}
+play($res1);
+
+}
+$res2 = play($res1);
+echo $res2;
