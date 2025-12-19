@@ -1,0 +1,297 @@
+function play()
+{
+    header("Content-type: text/html; charset=UTF-8");
+    global $count, $user, $str, $search;
+    $str = readline('Слово которое нужно угадать:'); //загаданное слово
+    $user = readline('Ведите букву:'); // буква в слове 
+    $arr = mb_str_split($str); //преобразовываем строку массив
+    $arr2 = []; //создаем массив в который будем добавлять отгаданное слово
+
+     // счетчик попыток
+    $count = 9;
+    $strCount = 'Попыток осталось';
+    $search = in_array($user, $arr); // поиск по слову 
+    if ($search == false) { //если такой буквы нет нет то счетчик -1
+        $count--;
+        if ($count < 9) {
+            echo $strCount . ' ' . $count . "\n";
+            return stolb();
+        } elseif ($count < 8) {
+            echo $strCount . ' ' . $count . "\n";
+            return drawingABeam();
+            echo $strCount . ' ' . $count . "\n";
+        }elseif ($count < 7) {
+            echo $strCount . ' ' . $count . "\n";
+            return rope();
+        }elseif ($count < 6) {
+            echo $strCount . ' ' . $count . "\n";
+            return head();
+        }elseif ($count < 5) {
+            echo $strCount . ' ' . $count . "\n";
+            return torso();
+        }elseif ($count < 4) {
+            echo $strCount . ' ' . $count . "\n";
+            return leftHand();
+        }elseif ($count < 3) {
+            echo $strCount . ' ' . $count . "\n";
+            return rightHand();
+        }elseif ($count < 2) {
+            echo $strCount . ' ' . $count . "\n";
+            return leftLeg();
+        }elseif ($count < 1) {
+            echo $strCount . ' ' . $count . "\n";
+            return pillarRendering();
+        }elseif ($count  == 0) {
+            return 'THE END!!';
+        }
+    } else { // буква есть то запускаем цикл чтобы добавить по индексам
+        foreach ($arr as $index => $char) {
+            if ($char === $user || in_array($char, $arr2)) { // если такая буква есть которую вел пользователь или такая буква еже есть в массиве 
+
+                $arr2[$index] = $char; // то добавляяем с таким же индексом букву из массива (артур)
+            } elseif (!isset($arr2[$index])) { // если переменная  т.е. буква не установлена то заполняем весь отавшийся массив _
+
+                $arr2[$index] = '_';
+            }
+        }
+    }
+    return [$arr2, $str,$user]; 
+}
+
+function restart(){
+    while($count > 0){
+        return play();
+        if($count == 0){
+            continue;
+        }
+    }
+}
+$result= restart();
+echo $result;
+
+function stolb()
+{
+    $arr = range(1, 6);
+    $result = [];
+    foreach ($arr as $elem) {
+        $elem = '|';
+        $result[] = $elem;
+    }
+    return implode("\n", $result);
+}
+
+
+
+function drawingABeam()
+{
+    $arr = range(1, 9);
+    $arr1 = [];
+    foreach ($arr as $elem) {
+        $elem = '_';
+        $arr1[] = $elem;
+    }
+
+    return implode('', $arr1) . "\n";
+}
+
+function pillarRendering()
+{
+    $arr = range(1, 6);
+    $result = [];
+    foreach ($arr as $elem) {
+        if ($elem == 1) {
+            $rope = '';
+            $elem = '|';
+            $rope .= str_repeat(' ', 7) . '|';
+            $result[] = $elem . $rope;
+        } elseif ($elem == 2) {
+            $head = '';
+            $elem = '|';
+            $head .= str_repeat(' ', 7) . 'O';
+            $result[] = $elem . $head;
+        } elseif ($elem == 3) {
+            $torso = '';
+            $leftHand = '';
+            $rightHand = '';
+            $elem = '|';
+            $leftHand .= str_repeat(' ', 6) . '/';
+            $torso .= str_repeat(' ', 0) . '|';
+            $rightHand .= str_repeat(' ', 0) . '\\';
+            $result[] = $elem . $leftHand . $torso . $rightHand;
+        } elseif ($elem == 4) {
+            $leftLeg = '';
+            $rightLeg = '';
+            $elem = '|';
+            $leftLeg .= str_repeat(' ', 6) . '/' . ' ';
+            $rightLeg .= str_repeat(' ', 0) . '\\';
+            $result[] = $elem . $leftLeg . $rightLeg;
+        } else {
+            $elem = '|';
+            $result[] = $elem;
+        }
+    }
+    return implode("\n", $result);
+}
+function rope()
+{
+    $arr = range(1, 6);
+    $result = [];
+    foreach ($arr as $elem) {
+        if ($elem == 1) {
+            $rope = '';
+            $elem = '|';
+            $rope .= str_repeat(' ', 7) . '|';
+            $result[] = $elem . $rope;
+        } else {
+            $elem = '|';
+            $result[] = $elem;
+        }
+    }
+    return implode("\n", $result);
+}
+
+function head()
+{
+    $arr = range(1, 6);
+    $result = [];
+    foreach ($arr as $elem) {
+        if ($elem == 1) {
+            $rope = '';
+            $elem = '|';
+            $rope .= str_repeat(' ', 7) . '|';
+            $result[] = $elem . $rope;
+        } elseif ($elem == 2) {
+            $head = '';
+            $elem = '|';
+            $head .= str_repeat(' ', 7) . 'O';
+            $result[] = $elem . $head;
+        } else {
+            $elem = '|';
+            $result[] = $elem;
+        }
+    }
+    return implode("\n", $result);
+}
+function torso()
+{
+    $arr = range(1, 6);
+    $result = [];
+    foreach ($arr as $elem) {
+        if ($elem == 1) {
+            $rope = '';
+            $elem = '|';
+            $rope .= str_repeat(' ', 7) . '|';
+            $result[] = $elem . $rope;
+        } elseif ($elem == 2) {
+            $head = '';
+            $elem = '|';
+            $head .= str_repeat(' ', 7) . 'O';
+            $result[] = $elem . $head;
+        } elseif ($elem == 3) {
+            $torso = '';
+            $elem = '|';
+            $torso .= str_repeat(' ', 7) . '|';
+            $result[] = $elem . $torso;
+        } else {
+            $elem = '|';
+            $result[] = $elem;
+        }
+    }
+    return implode("\n", $result);
+}
+function leftHand()
+{
+    $arr = range(1, 6);
+    $result = [];
+    foreach ($arr as $elem) {
+        if ($elem == 1) {
+            $rope = '';
+            $elem = '|';
+            $rope .= str_repeat(' ', 7) . '|';
+            $result[] = $elem . $rope;
+        } elseif ($elem == 2) {
+            $head = '';
+            $elem = '|';
+            $head .= str_repeat(' ', 7) . 'O';
+            $result[] = $elem . $head;
+        } elseif ($elem == 3) {
+            $torso = '';
+            $leftHand = '';
+            $elem = '|';
+            $leftHand .= str_repeat(' ', 6) . '/';
+            $torso .= str_repeat(' ', 0) . '|';
+            $result[] = $elem . $leftHand . $torso;
+        } else {
+            $elem = '|';
+            $result[] = $elem;
+        }
+    }
+    return implode("\n", $result);
+}
+function rightHand()
+{
+    $arr = range(1, 6);
+    $result = [];
+    foreach ($arr as $elem) {
+        if ($elem == 1) {
+            $rope = '';
+            $elem = '|';
+            $rope .= str_repeat(' ', 7) . '|';
+            $result[] = $elem . $rope;
+        } elseif ($elem == 2) {
+            $head = '';
+            $elem = '|';
+            $head .= str_repeat(' ', 7) . 'O';
+            $result[] = $elem . $head;
+        } elseif ($elem == 3) {
+            $torso = '';
+            $leftHand = '';
+            $rightHand = '';
+            $elem = '|';
+            $leftHand .= str_repeat(' ', 6) . '/';
+            $torso .= str_repeat(' ', 0) . '|';
+            $rightHand .= str_repeat(' ', 0) . '\\';
+            $result[] = $elem . $leftHand . $torso . $rightHand;
+        } else {
+            $elem = '|';
+            $result[] = $elem;
+        }
+    }
+    return implode("\n", $result);
+}
+function leftLeg()
+{
+    $arr = range(1, 6);
+    $result = [];
+    foreach ($arr as $elem) {
+        if ($elem == 1) {
+            $rope = '';
+            $elem = '|';
+            $rope .= str_repeat(' ', 7) . '|';
+            $result[] = $elem . $rope;
+        } elseif ($elem == 2) {
+            $head = '';
+            $elem = '|';
+            $head .= str_repeat(' ', 7) . 'O';
+            $result[] = $elem . $head;
+        } elseif ($elem == 3) {
+            $torso = '';
+            $leftHand = '';
+            $rightHand = '';
+            $elem = '|';
+            $leftHand .= str_repeat(' ', 6) . '/';
+            $torso .= str_repeat(' ', 0) . '|';
+            $rightHand .= str_repeat(' ', 0) . '\\';
+            $result[] = $elem . $leftHand . $torso . $rightHand;
+        } elseif ($elem == 4) {
+            $leftLeg = '';
+            $elem = '|';
+            $leftLeg .= str_repeat(' ', 6) . '/' . ' ';
+            $result[] = $elem . $leftLeg;
+        } else {
+            $elem = '|';
+            $result[] = $elem;
+        }
+    }
+    return implode("\n", $result);
+}
